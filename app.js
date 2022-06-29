@@ -1,13 +1,17 @@
 const express = require('express');
-
 const app = express();
+const rescue = require('express-rescue');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const router = require('./routers');
 
-// não remova esse endpoint, é para o avaliador funcionar
+app.use(helmet());
+app.use(morgan('common'));
+
 app.get('/', (_request, response) => {
   response.send();
 });
 
-// não remova essa exportação, é para o avaliador funcionar
-// você pode registrar suas rotas normalmente, como o exemplo acima
-// você deve usar o arquivo index.js para executar sua aplicação 
+app.use(rescue(router.storeRouter));
+
 module.exports = app;
