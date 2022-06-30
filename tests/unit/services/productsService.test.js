@@ -27,4 +27,16 @@ describe('Tests for productsService', () => {
       expect(products).to.have.ordered.members(allProductsResponse);
     });
   });
+
+  describe('getById service returns', () => {
+    beforeEach(() => sinonStub('getById', [allProductsResponse[0]]));
+
+    afterEach(() => productsModel.getById.restore());
+
+    it('Returns an object', async () => {
+      const product = await productsService.getById();
+      expect(product).to.be.an('object');
+      expect(product).to.have.a.property('id' && 'name');
+    });
+  });
 });
