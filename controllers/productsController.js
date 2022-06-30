@@ -2,17 +2,16 @@ const productsService = require('../services/productsService');
 
 const { httpStatus, errorMessages } = require('../helpers');
 
-const getAll = async (_req, res) => {
+const getAll = async (_req, res, next) => {
   try {
     const products = await productsService.getAll();
     return res.status(httpStatus.OK).json(products);
   } catch (err) {
-    console.error(err);
-    res.status(httpStatus.INTERNAL_SERVER).json(errorMessages.INTERNAL_ERROR);
+    next(err);
   }
 };
 
-const getById = async (req, res) => {
+const getById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await productsService.getById(id);
@@ -23,8 +22,7 @@ const getById = async (req, res) => {
 
     return res.status(httpStatus.OK).json(product);
   } catch (err) {
-    console.error(err);
-    res.status(httpStatus.INTERNAL_SERVER).json(errorMessages.INTERNAL_ERROR);
+    next(err);
   }
 };
 
