@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 const rescue = require('express-rescue');
 const helmet = require('helmet');
@@ -12,6 +13,6 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use(rescue(router.storeRouter));
+app.use('/products', rescue(router.storeRouter));
 
 module.exports = app;
