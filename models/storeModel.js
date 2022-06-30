@@ -1,4 +1,4 @@
-const connection = require('../helpers/connection');
+const { connection } = require('../helpers');
 
 const getAll = async () => {
   const [products] = await connection.execute(`
