@@ -9,19 +9,31 @@ const {
 } = require('../../../__tests__/_dataMock');
 
 describe('Tests for productsModel', () => {
+  afterEach(() => {
+    connection.execute.restore();
+  })
 
-  describe('getAll function returns all products', () => {
-    beforeEach(() => {
-      sinon.stub(connection, 'execute').resolves([allProductsResponse]);
-    });
+  const sinonStub = (param) => {
+    sinon.stub(connection, 'execute').resolves([param]);
+  }
 
-    afterEach(() => {
-      connection.execute.restore();
-    });
+  describe('getAll model returns', () => {
+    beforeEach(() => sinonStub(allProductsResponse));
 
     it('Returns an array containing objects', async () => {
       const products = await productsModel.getAll();
       expect(products).to.be.an('array').to.contains(allProductsResponse[0]);
+      expect(products).to.have.ordered.members(allProductsResponse);
+    });
+  });
+
+  describe('getById model returns', () => {
+    beforeEach(() => sinonStub(allProductsResponse[0]));
+
+    it('Returns an object', async () => {
+      const product = await productsModel.getById();
+      expect(product).to.be.a('object');
+      expect(product).to.have.a.property('id' && 'name');
     });
   });
 });
