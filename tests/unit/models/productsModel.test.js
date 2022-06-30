@@ -9,12 +9,10 @@ const {
 } = require('../../../__tests__/_dataMock');
 
 describe('Tests for productsModel', () => {
-  afterEach(() => {
-    connection.execute.restore();
-  })
+  afterEach(() => connection.execute.restore());
 
-  const sinonStub = (param) => {
-    sinon.stub(connection, 'execute').resolves([param]);
+  const sinonStub = (data) => {
+    sinon.stub(connection, 'execute').resolves([data]);
   }
 
   describe('getAll model returns', () => {
