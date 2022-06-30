@@ -29,7 +29,7 @@ const getById = async (req, res, next) => {
 const add = async (req, res, next) => {
   try {
     const { name } = req.body;
-    const createdProduct = await productService.add(name);
+    const createdProduct = await productsService.add(name);
     return res.status(httpStatus.CREATED).json(createdProduct);
   } catch (err) {
     next(err);
