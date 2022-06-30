@@ -12,4 +12,15 @@ const getAll = async (_req, res) => {
   }
 };
 
-module.exports = { getAll };
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await storeService.getById(id);
+    return res.status(httpStatus.OK).json(product);
+  } catch (err) {
+    console.error(err);
+    res.status(httpStatus.INTERNAL_SERVER).json(errorMessages.INTERNAL_ERROR);
+  }
+};
+
+module.exports = { getAll, getById };

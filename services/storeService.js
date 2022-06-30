@@ -5,4 +5,9 @@ const getAll = async () => {
   return products;
 };
 
-module.exports = { getAll };
+const getById = async (id) => {
+  const product = await storeModel.getById(id);
+  return product;
+};
+
+module.exports = { getAll, getById };
