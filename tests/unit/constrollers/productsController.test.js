@@ -54,4 +54,20 @@ describe('Tests for productsController', () => {
       expect(res.status.calledWith(httpStatus.OK)).to.be.equal(true);
     });
   });
+
+  describe('When calling getById controller with non-existent id', () => {
+    beforeEach(() => {
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'getById').resolves();
+    });
+
+    afterEach(() => productsService.getById.restore());
+
+    it('Is called status code 400', async () => {
+      await productsController.getById(req, res, next);
+      expect(res.status.calledWith(httpStatus.NOT_FOUND)).to.be.equal(true);
+      expect(res.json.calledWith(errorMessages.NOT_FOUND)).to.be.equal(true);
+    });
+  });
 });
