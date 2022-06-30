@@ -10,6 +10,6 @@ const getAll = async (_req, res) => {
     console.error(err);
     res.status(httpStatus.INTERNAL_SERVER).json(errorMessages.INTERNAL_ERROR);
   }
-}
+};
 
 module.exports = { getAll };
