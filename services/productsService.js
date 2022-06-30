@@ -12,4 +12,9 @@ const getById = async (id) => {
   // Received: [{"id": 1, "name": "Martelo de Thor"}]
 };
 
-module.exports = { getAll, getById };
+const add = async (name) => {
+  const createdProduct = await productsModel.add(name);
+  return { id: createdProduct.id, name };
+};
+
+module.exports = { getAll, getById, add };
