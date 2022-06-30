@@ -13,6 +13,6 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use('/products', rescue(router.storeRouter));
+app.use('/products', rescue(router.productsRouter));
 
 module.exports = app;
