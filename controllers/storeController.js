@@ -16,6 +16,11 @@ const getById = async (req, res) => {
   try {
     const { id } = req.params;
     const product = await storeService.getById(id);
+
+    if (!product) {
+      return res.status(httpStatus.NOT_FOUND).json(errorMessages.NOT_FOUND);
+    }
+
     return res.status(httpStatus.OK).json(product);
   } catch (err) {
     console.error(err);
