@@ -70,4 +70,17 @@ describe('Tests for productsController', () => {
       expect(res.json.calledWith(errorMessages.NOT_FOUND)).to.be.equal(true);
     });
   });
+
+  describe('Test getById controller catch error', () => {
+    beforeEach(() => {
+      sinon.stub(productsService, 'getById').throws(err);
+    });
+
+    afterEach(() => productsService.getById.restore());
+
+    it('Returns an error', async () => {
+      await productsController.getById(req, res, next);
+      expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
 });
