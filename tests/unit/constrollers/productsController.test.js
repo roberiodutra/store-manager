@@ -38,4 +38,20 @@ describe('Tests for productsController', () => {
       expect(sinon.assert.calledWith(next, sinon.match(err)));
     });
   });
+
+  describe('When calling getById controller', () => {
+    beforeEach(() => {
+      req.params = '1';
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'getById').resolves({});
+    });
+
+    afterEach(() => productsService.getById.restore());
+
+    it('Is called status code 200', async () => {
+      await productsController.getById(req, res, next);
+      expect(res.status.calledWith(httpStatus.OK)).to.be.equal(true);
+    });
+  });
 });
