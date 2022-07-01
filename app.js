@@ -16,5 +16,6 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', rescue(router.productsRouter));
+app.use('/sales', rescue(router.salesRouter));
 
 module.exports = app;

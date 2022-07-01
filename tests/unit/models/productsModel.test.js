@@ -6,6 +6,7 @@ const productsModel = require('../../../models/productsModel');
 
 const {
   allProductsResponse,
+  productCreateResponse,
 } = require('../../../__tests__/_dataMock');
 
 describe('Tests for productsModel', () => {
@@ -32,6 +33,16 @@ describe('Tests for productsModel', () => {
       const product = await productsModel.getById();
       expect(product).to.be.a('object');
       expect(product).to.have.a.property('id' && 'name');
+    });
+  });
+
+  describe('add model returns', () => {
+    beforeEach(() => sinonStub(productCreateResponse));
+
+    it('Returns an object', async () => {
+      const createdProduct = await productsModel.add();
+      expect(createdProduct).to.be.a('object');
+      expect(createdProduct).to.have.a.property('id' && 'name');
     });
   });
 });
