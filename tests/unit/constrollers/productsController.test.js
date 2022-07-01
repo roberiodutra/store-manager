@@ -104,4 +104,17 @@ describe('Tests for productsController', () => {
       expect(res.status.calledWith(httpStatus.CREATED)).to.be.true;
     });
   });
+
+  describe('Test add controller catch error', () => {
+    beforeEach(() => {
+      sinon.stub(productsService, 'add').throws(err);
+    });
+
+    afterEach(() => productsService.add.restore());
+
+    it('Returns an error', async () => {
+      await productsController.add(req, res, next);
+      expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
 });
