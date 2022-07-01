@@ -6,6 +6,8 @@ const productsService = require('../../../services/productsService');
 
 const {
   allProductsResponse,
+  rightProductBody,
+  productCreateResponse,
 } = require('../../../__tests__/_dataMock');
 
 describe('Tests for productsService', () => {
@@ -37,6 +39,18 @@ describe('Tests for productsService', () => {
       const product = await productsService.getById();
       expect(product).to.be.an('object');
       expect(product).to.have.a.property('id' && 'name');
+    });
+  });
+
+  describe('add service returns', () => {
+    beforeEach(() => sinonStub('add', rightProductBody));
+
+    afterEach(() => productsModel.add.restore());
+
+    it('Returns an object', async () => {
+      const createdProduct = await productsService.add();
+      expect(createdProduct).to.be.an('object');
+      expect(createdProduct).to.have.a.property('id' && 'name');
     });
   });
 });
