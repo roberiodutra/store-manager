@@ -7,7 +7,6 @@ const productsService = require('../../../services/productsService');
 const {
   allProductsResponse,
   rightProductBody,
-  productCreateResponse,
 } = require('../../../__tests__/_dataMock');
 
 describe('Tests for productsService', () => {

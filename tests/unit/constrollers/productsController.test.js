@@ -5,6 +5,11 @@ const productsService = require("../../../services/productsService");
 const productsController = require("../../../controllers/productsController");
 const { httpStatus, errorMessages } = require('../../../helpers');
 
+const {
+  rightProductBody,
+  productCreateResponse,
+} = require('../../../__tests__/_dataMock');
+
 describe('Tests for productsController', () => {
   const res = {};
   const req = {};
@@ -22,7 +27,7 @@ describe('Tests for productsController', () => {
 
     it('Is called status code 200', async () => {
       await productsController.getAll(req, res);
-      expect(res.status.calledWith(httpStatus.OK)).to.be.equal(true);
+      expect(res.status.calledWith(httpStatus.OK)).to.be.true;
     });
   });
 
@@ -51,7 +56,7 @@ describe('Tests for productsController', () => {
 
     it('Is called status code 200', async () => {
       await productsController.getById(req, res, next);
-      expect(res.status.calledWith(httpStatus.OK)).to.be.equal(true);
+      expect(res.status.calledWith(httpStatus.OK)).to.be.true;
     });
   });
 
@@ -66,8 +71,8 @@ describe('Tests for productsController', () => {
 
     it('Is called status code 400', async () => {
       await productsController.getById(req, res, next);
-      expect(res.status.calledWith(httpStatus.NOT_FOUND)).to.be.equal(true);
-      expect(res.json.calledWith(errorMessages.NOT_FOUND)).to.be.equal(true);
+      expect(res.status.calledWith(httpStatus.NOT_FOUND)).to.be.true;
+      expect(res.json.calledWith(errorMessages.NOT_FOUND)).to.be.true;
     });
   });
 
@@ -81,6 +86,22 @@ describe('Tests for productsController', () => {
     it('Returns an error', async () => {
       await productsController.getById(req, res, next);
       expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
+
+  describe('When calling add controller', () => {
+    beforeEach(() => {
+      req.body = rightProductBody;
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'add').resolves(productCreateResponse);
+    });
+
+    afterEach(() => productsService.add.restore());
+
+    it('Is called status code 201', async () => {
+      await productsController.add(req, res, next);
+      expect(res.status.calledWith(httpStatus.CREATED)).to.be.true;
     });
   });
 });
