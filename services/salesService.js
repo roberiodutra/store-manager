@@ -3,11 +3,13 @@ const salesModel = require('../models/salesModel');
 const createSale = async (sales) => {
   const saleId = await salesModel.createSale();
   await Promise.all(
-    sales.forEach(async (sale) => {
+    sales.map(async (sale) => {
       await salesModel.addSoldProducts(
-        saleId.insertId, sale.productId, sale.quantity,
+        saleId.id, sale.productId, sale.quantity,
       );
     }));
-  const sold = { id: saleId.insertId, itemsSold: sales };
+  const sold = { id: saleId.id, itemsSold: sales };
   return sold;
 };
+
+module.exports = { createSale };
