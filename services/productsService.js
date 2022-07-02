@@ -1,4 +1,5 @@
 const productsModel = require('../models/productsModel');
+const bodyValidation = require('../middlewares/bodyValidation');
 
 const getAll = async () => {
   const products = await productsModel.getAll();
@@ -12,7 +13,8 @@ const getById = async (id) => {
   // Received: [{"id": 1, "name": "Martelo de Thor"}]
 };
 
-const add = async (name) => {
+const add = async (name, res) => {
+  if (bodyValidation.name(name, res)) return;
   const createdProduct = await productsModel.add(name);
   const result = { id: createdProduct.insertId, name };
   return result;
