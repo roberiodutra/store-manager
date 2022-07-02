@@ -5,15 +5,23 @@ const name = (name, res) => {
   case !name:
     return res.status(httpStatus.BAD_REQUEST).json(errorMessages.NAME_REQUIRED);
   case name.length < 5:
-    return res.status(httpStatus.UNPROCESSABLE_ENTITY).json(errorMessages.INVALID_NAME);
+    return res.status(httpStatus.UNPROCESSABLE).json(errorMessages.INVALID_NAME);
   default:
     return false;
   }
 };
 
-const productId = (sales, res) => {
-  const bool = sales.filter((body) => body.productId === undefined);
-  bool ? res.status(httpStatus.BAD_REQUEST).json(errorMessages.ID_REQUIRED) : bool;
+const sales = (sales, res) => {
+  switch (true) {
+  case sales.some((b) => b.productId === undefined):
+    return res.status(httpStatus.BAD_REQUEST).json(errorMessages.ID_REQUIRED);
+  case sales.some((b) => b.quantity === undefined):
+    return res.status(httpStatus.BAD_REQUEST).json(errorMessages.QUANTITY_REQUIRED);
+  case sales.some((b) => b.quantity <= 0):
+    return res.status(httpStatus.UNPROCESSABLE).json(errorMessages.INVALID_QUANTITY);
+  default:
+    return false;
+  }
 }
 
-module.exports = { name, productId };
+module.exports = { name, sales };
