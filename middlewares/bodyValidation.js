@@ -11,4 +11,9 @@ const name = (name, res) => {
   }
 };
 
-module.exports = { name };
+const productId = (sales, res) => {
+  const bool = sales.filter((body) => body.productId === undefined);
+  bool ? res.status(httpStatus.BAD_REQUEST).json(errorMessages.ID_REQUIRED) : bool;
+}
+
+module.exports = { name, productId };

@@ -1,6 +1,9 @@
 const salesModel = require('../models/salesModel');
+const bodyValidation = require('../middlewares/bodyValidation');
 
-const createSale = async (sales) => {
+const createSale = async (sales, res) => {
+  if (bodyValidation.productId(sales, res)) return;
+
   const saleId = await salesModel.createSale();
   await Promise.all(
     sales.map(async (sale) => {
