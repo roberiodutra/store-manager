@@ -64,5 +64,10 @@ describe('Tests for productsService', () => {
       await productsService.add('', res);
       expect(res.status.calledWith(httpStatus.BAD_REQUEST)).to.be.true;
     });
+
+    it('Is called status code 422', async () => {
+      await productsService.add('abcd', res);
+      expect(res.status.calledWith(httpStatus.UNPROCESSABLE)).to.be.true;
+    });
   });
 });
