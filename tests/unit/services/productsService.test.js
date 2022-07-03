@@ -3,6 +3,7 @@ const { expect } = require("chai");
 
 const productsModel = require('../../../models/productsModel');
 const productsService = require('../../../services/productsService');
+const { httpStatus } = require('../../../helpers');
 
 const {
   allProductsResponse,
@@ -13,6 +14,9 @@ describe('Tests for productsService', () => {
   const sinonStub = (prop, data) => {
     sinon.stub(productsModel, prop).resolves(data);
   }
+
+  const res = {};
+  const name = 'product1';
 
   describe('getAll service returns', () => {
     beforeEach(() => sinonStub('getAll', allProductsResponse));
@@ -42,14 +46,23 @@ describe('Tests for productsService', () => {
   });
 
   describe('add service returns', () => {
-    beforeEach(() => sinonStub('add', rightProductBody));
+    beforeEach(() => {
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinonStub('add', rightProductBody);
+    });
 
     afterEach(() => productsModel.add.restore());
 
     it('Returns an object', async () => {
-      const createdProduct = await productsService.add();
+      const createdProduct = await productsService.add(name);
       expect(createdProduct).to.be.an('object');
       expect(createdProduct).to.have.a.property('id' && 'name');
+    });
+
+    it('Is called status code 400', async () => {
+      await productsService.add('', res);
+      expect(res.status.calledWith(httpStatus.BAD_REQUEST)).to.be.true;
     });
   });
 });
