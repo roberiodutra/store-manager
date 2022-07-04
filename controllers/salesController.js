@@ -1,6 +1,6 @@
 const salesService = require('../services/salesService');
 
-const { httpStatus } = require('../helpers');
+const { httpStatus, errorMessages } = require('../helpers');
 
 const createSale = async (req, res, next) => {
   try {
@@ -21,4 +21,19 @@ const getAll = async (_req, res, next) => {
   }
 };
 
-module.exports = { createSale, getAll };
+const getById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const sale = await salesService.getById(id);
+
+    if (sale.length === 0) {
+      return res.status(httpStatus.NOT_FOUND).json(errorMessages.SALE_N_FOUND);
+    }
+
+    return res.status(httpStatus.OK).json(sale);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { createSale, getAll, getById };
