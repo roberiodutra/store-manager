@@ -38,16 +38,6 @@ const saleCreateResponse = {
   ]
 }
 
-const allSales = [
-  { saleId: 1, date: '2021-09-09', productId: 1, quantity: 2 },
-  { saleId: 1, date: '2021-09-09', productId: 2, quantity: 2 },
-];
-
-const specificSale = [
-  { date: '2021-09-09', productId: 1, quantity: 2 },
-  { date: '2021-09-09', productId: 2, quantity: 2 },
-];
-
 module.exports = {
   wrongProductBody,
   wrongSizeProductBody,
@@ -66,6 +56,4 @@ module.exports = {
   otherProductIdSaleBody,
   rightSaleBody,
   saleCreateResponse,
-  allSales,
-  specificSale,
 };

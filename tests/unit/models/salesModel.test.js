@@ -4,10 +4,15 @@ const { expect } = require('chai');
 const connection = require('../../../helpers/connection');
 const salesModel = require('../../../models/salesModel');
 
-const {
-  allSales,
-  specificSale,
-} = require('../../../__tests__/_dataMock');
+const allSales = [
+  { saleId: 1, date: '2021-09-09', productId: 1, quantity: 2 },
+  { saleId: 1, date: '2021-09-09', productId: 2, quantity: 2 },
+];
+
+const specificSale = [
+  { date: '2021-09-09', productId: 1, quantity: 2 },
+  { date: '2021-09-09', productId: 2, quantity: 2 },
+];
 
 describe('Tests for salesModel', () => {
   afterEach(() => connection.execute.restore());
@@ -40,7 +45,9 @@ describe('Tests for salesModel', () => {
     it('Returns an array of objects', async () => {
       const sales = await salesModel.getAll();
       expect(sales).to.be.a('array');
-      expect(sales[0]).to.have.a.property('saleId');
+      sales.forEach((s) => expect(s)
+        .to.be.a('object')
+        .to.have.a.property('saleId' && 'productId' && 'quantity' && 'date'));
     });
   });
 
@@ -50,7 +57,9 @@ describe('Tests for salesModel', () => {
     it('Returns an array of objects', async () => {
       const sale = await salesModel.getById();
       expect(sale).to.be.a('array');
-      expect(sale[0]).to.have.a.property('productId');
+      sale.forEach((s) => expect(s)
+        .to.be.a('object')
+        .to.have.a.property('productId' && 'quantity' && 'date'));
     });
   });
 });
