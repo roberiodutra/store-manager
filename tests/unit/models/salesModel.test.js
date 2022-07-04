@@ -45,4 +45,16 @@ describe('Tests for salesModel', () => {
         .to.have.a.property('saleId' && 'productId' && 'quantity' && 'date'));
     });
   });
+
+  describe('getById model returns', () => {
+    beforeEach(() => sinonStub(specificSale));
+
+    it('Returns an array of objects', async () => {
+      const sale = await salesModel.getById();
+      expect(sale).to.be.a('array');
+      sale.forEach((s) => expect(s)
+        .to.be.a('object')
+        .to.have.a.property('productId' && 'quantity' && 'date'));
+    });
+  });
 });
