@@ -16,7 +16,7 @@ describe('Tests for productsController', () => {
   const next = sinon.stub().returns();
   const err = errorMessages.INTERNAL_ERROR;
 
-  describe('When calling getAll controller', () => {
+  describe('Calling getAll controller', () => {
     beforeEach(() => {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
@@ -44,7 +44,7 @@ describe('Tests for productsController', () => {
     });
   });
 
-  describe('When calling getById controller', () => {
+  describe('Calling getById controller', () => {
     beforeEach(() => {
       req.params = '1';
       res.status = sinon.stub().returns(res);
@@ -60,7 +60,7 @@ describe('Tests for productsController', () => {
     });
   });
 
-  describe('When calling getById controller with non-existent id', () => {
+  describe('Calling getById controller with non-existent id', () => {
     beforeEach(() => {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
@@ -89,7 +89,7 @@ describe('Tests for productsController', () => {
     });
   });
 
-  describe('When calling add controller', () => {
+  describe('Calling add controller', () => {
     beforeEach(() => {
       req.body = rightProductBody;
       res.status = sinon.stub().returns(res);
