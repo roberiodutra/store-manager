@@ -22,4 +22,9 @@ const createSale = async (sales, res) => {
   return sold;
 };
 
-module.exports = { createSale };
+const getAll = async () => {
+  const sales = await salesModel.getAll();
+  return sales;
+};
+
+module.exports = { createSale, getAll };

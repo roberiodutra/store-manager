@@ -7,6 +7,11 @@ const productsModel = require('../../../models/productsModel');
 const { httpStatus, errorMessages } = require('../../../helpers');
 const { productId, quantity } = require('../../../middlewares/bodyValidation');
 
+const payload = [
+  { saleId: 1, date: '2021-09-09', productId: 1, quantity: 2 },
+  { saleId: 1, date: '2021-09-09', productId: 2, quantity: 2 },
+];
+
 const {
   saleCreateResponse,
   allProductsResponse,
@@ -80,6 +85,24 @@ describe('Tests for salesService', () => {
     it('Validation returns invalid quantity', async () => {
       quantity(wrongZeroQuantityBody, res);
       expect(res.json.calledWith(errorMessages.INVALID_QUANTITY)).to.be.true;
+    });
+  });
+
+  describe('getAll service returns', () => {
+    beforeEach(() => {
+      sinon.stub(salesModel, 'getAll').resolves(payload);
+    });
+
+    afterEach(() => {
+      salesModel.getAll.restore();
+    });
+
+    it('Returns an array of objects', async () => {
+      const sales = await salesService.getAll();
+      expect(sales).to.be.a('array');
+      sales.forEach((s) => expect(s)
+        .to.be.a('object')
+        .to.have.a.property('saleId' && 'productId' && 'quantity' && 'date'));
     });
   });
 });
