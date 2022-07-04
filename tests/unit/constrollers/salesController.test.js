@@ -102,4 +102,17 @@ describe('Tests for salesController', () => {
       expect(res.status.calledWith(httpStatus.NOT_FOUND)).to.be.true;
     });
   });
+
+  describe('Test getById controller catch error', () => {
+    beforeEach(() => {
+      sinon.stub(salesService, 'getById').throws(err);
+    });
+
+    afterEach(() => salesService.getById.restore());
+
+    it('Returns an error', async () => {
+      await salesController.getById(req, res, next);
+      expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
 });
