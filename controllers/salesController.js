@@ -12,4 +12,13 @@ const createSale = async (req, res, next) => {
   }
 };
 
-module.exports = { createSale };
+const getAll = async (_req, res, next) => {
+  try {
+    const sales = await salesService.getAll();
+    return res.status(httpStatus.OK).json(sales);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { createSale, getAll };
