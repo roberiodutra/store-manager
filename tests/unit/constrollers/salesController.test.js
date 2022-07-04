@@ -53,4 +53,17 @@ describe('Tests for salesController', () => {
       expect(res.status.calledWith(httpStatus.OK)).to.be.true;
     });
   });
+
+  describe('Test getAll controller catch error', () => {
+    beforeEach(() => {
+      sinon.stub(salesService, 'getAll').throws(err);
+    });
+
+    afterEach(() => salesService.getAll.restore());
+
+    it('Returns an error', async () => {
+      await salesController.getAll(req, res, next);
+      expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
 });
