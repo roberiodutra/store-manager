@@ -4,8 +4,8 @@ const { expect } = require("chai");
 const salesModel = require('../../../models/salesModel');
 const salesService = require('../../../services/salesService');
 const productsModel = require('../../../models/productsModel');
-const { httpStatus } = require('../../../helpers');
-const { productId } = require('../../../middlewares/bodyValidation');
+const { httpStatus, errorMessages } = require('../../../helpers');
+const { productId, quantity } = require('../../../middlewares/bodyValidation');
 
 const {
   saleCreateResponse,
@@ -39,6 +39,7 @@ describe('Tests for salesService', () => {
       await salesService.createSale(rightSaleBody, res);
       expect(salesModel.createSale.called).to.be.true;
       expect(productId(rightSaleBody, true, res)).to.be.false;
+      expect(quantity(rightSaleBody, res)).to.be.false;
     });
 
     it('Is called status code 400', async () => {
@@ -59,6 +60,26 @@ describe('Tests for salesService', () => {
     it('Is called status code 422', async () => {
       await salesService.createSale(wrongZeroQuantityBody, res);
       expect(res.status.calledWith(httpStatus.UNPROCESSABLE)).to.be.true;
+    });
+
+    it('Validation returns not found', async () => {
+      productId(rightSaleBody, false, res);
+      expect(res.json.calledWith(errorMessages.NOT_FOUND)).to.be.true;
+    });
+
+    it('Validation returns ID required', async () => {
+      productId(wrongSaleNotProductIdBody, true, res);
+      expect(res.json.calledWith(errorMessages.ID_REQUIRED)).to.be.true;
+    });
+
+    it('Validation returns quantity required', async () => {
+      quantity(wrongSaleNotQuantityBody, res);
+      expect(res.json.calledWith(errorMessages.QUANTITY_REQUIRED)).to.be.true;
+    });
+
+    it('Validation returns invalid quantity', async () => {
+      quantity(wrongZeroQuantityBody, res);
+      expect(res.json.calledWith(errorMessages.INVALID_QUANTITY)).to.be.true;
     });
   });
 });
