@@ -3,7 +3,7 @@ const { expect } = require("chai");
 
 const productsModel = require('../../../models/productsModel');
 const productsService = require('../../../services/productsService');
-const { httpStatus } = require('../../../helpers');
+const { httpStatus, errorMessages } = require('../../../helpers');
 
 const {
   allProductsResponse,
@@ -68,6 +68,16 @@ describe('Tests for productsService', () => {
     it('Is called status code 422', async () => {
       await productsService.add('abcd', res);
       expect(res.status.calledWith(httpStatus.UNPROCESSABLE)).to.be.true;
+    });
+
+    it('Returns error message name required', async () => {
+      await productsService.add('', res);
+      expect(res.json.calledWith(errorMessages.NAME_REQUIRED)).to.be.true;
+    });
+
+    it('Returns error message invalid name', async () => {
+      await productsService.add('abcd', res);
+      expect(res.json.calledWith(errorMessages.INVALID_NAME)).to.be.true;
     });
   });
 });
