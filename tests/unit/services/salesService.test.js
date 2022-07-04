@@ -97,9 +97,7 @@ describe('Tests for salesService', () => {
     it('Returns an array of objects', async () => {
       const sales = await salesService.getAll();
       expect(sales).to.be.a('array');
-      sales.forEach((s) => expect(s)
-        .to.be.a('object')
-        .to.have.a.property('saleId' && 'productId' && 'quantity' && 'date'));
+      expect(sales[0]).to.have.a.property('saleId');
     });
   });
 
@@ -115,9 +113,7 @@ describe('Tests for salesService', () => {
     it('Returns an array of objects', async () => {
       const sale = await salesService.getById();
       expect(sale).to.be.a('array');
-      sale.forEach((s) => expect(s)
-        .to.be.a('object')
-        .to.have.a.property('productId' && 'quantity' && 'date'));
+      expect(sale[0]).to.have.a.property('productId');
     });
   });
 });

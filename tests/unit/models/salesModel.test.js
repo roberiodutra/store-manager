@@ -40,9 +40,7 @@ describe('Tests for salesModel', () => {
     it('Returns an array of objects', async () => {
       const sales = await salesModel.getAll();
       expect(sales).to.be.a('array');
-      sales.forEach((s) => expect(s)
-        .to.be.a('object')
-        .to.have.a.property('saleId' && 'productId' && 'quantity' && 'date'));
+      expect(sales[0]).to.have.a.property('saleId');
     });
   });
 
@@ -52,9 +50,7 @@ describe('Tests for salesModel', () => {
     it('Returns an array of objects', async () => {
       const sale = await salesModel.getById();
       expect(sale).to.be.a('array');
-      sale.forEach((s) => expect(s)
-        .to.be.a('object')
-        .to.have.a.property('productId' && 'quantity' && 'date'));
+      expect(sale[0]).to.have.a.property('productId');
     });
   });
 });
