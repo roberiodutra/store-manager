@@ -5,13 +5,17 @@ const salesService = require("../../../services/salesService");
 const salesController = require("../../../controllers/salesController");
 const { httpStatus, errorMessages } = require('../../../helpers');
 
+const {
+  specificSale,
+} = require('../../../__tests__/_dataMock');
+
 describe('Tests for salesController', () => {
   const res = {};
   const req = {};
   const next = sinon.stub().returns();
   const err = errorMessages.INTERNAL_ERROR;
 
-  describe('When calling createSale controller', () => {
+  describe('Calling createSale controller', () => {
     beforeEach(() => {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
@@ -39,7 +43,7 @@ describe('Tests for salesController', () => {
     });
   });
 
-  describe('When calling getAll controller', () => {
+  describe('Calling getAll controller', () => {
     beforeEach(() => {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
@@ -64,6 +68,22 @@ describe('Tests for salesController', () => {
     it('Returns an error', async () => {
       await salesController.getAll(req, res, next);
       expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
+
+  describe('Calling getById controller', () => {
+    beforeEach(() => {
+      req.params = 3;
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'getById').resolves([specificSale]);
+    });
+
+    afterEach(() => salesService.getById.restore());
+
+    it('Is called status code 200', async () => {
+      await salesController.getById(req, res);
+      expect(res.status.calledWith(httpStatus.OK)).to.be.true;
     });
   });
 });
