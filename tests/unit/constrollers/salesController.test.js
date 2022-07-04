@@ -86,4 +86,20 @@ describe('Tests for salesController', () => {
       expect(res.status.calledWith(httpStatus.OK)).to.be.true;
     });
   });
+
+  describe('Calling getById controller with incorrect id', () => {
+    beforeEach(() => {
+      req.params = 9999;
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'getById').resolves([]);
+    });
+
+    afterEach(() => salesService.getById.restore());
+
+    it('Is called status code 404', async () => {
+      await salesController.getById(req, res);
+      expect(res.status.calledWith(httpStatus.NOT_FOUND)).to.be.true;
+    });
+  });
 });
