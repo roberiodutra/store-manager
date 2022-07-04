@@ -38,4 +38,19 @@ describe('Tests for salesController', () => {
       expect(sinon.assert.calledWith(next, sinon.match(err)));
     });
   });
+
+  describe('When calling getAll controller', () => {
+    beforeEach(() => {
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'getAll').resolves([]);
+    });
+
+    afterEach(() => salesService.getAll.restore());
+
+    it('Is called status code 200', async () => {
+      await salesController.getAll(req, res);
+      expect(res.status.calledWith(httpStatus.OK)).to.be.true;
+    });
+  });
 });
