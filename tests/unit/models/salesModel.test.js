@@ -4,10 +4,10 @@ const { expect } = require('chai');
 const connection = require('../../../helpers/connection');
 const salesModel = require('../../../models/salesModel');
 
-const payload = [
-  { saleId: 1, date: '2021-09-09', productId: 1, quantity: 2 },
-  { saleId: 1, date: '2021-09-09', productId: 2, quantity: 2 },
-];
+const {
+  allSales,
+  specificSale,
+} = require('../../../__tests__/_dataMock');
 
 describe('Tests for salesModel', () => {
   afterEach(() => connection.execute.restore());
@@ -35,7 +35,7 @@ describe('Tests for salesModel', () => {
   });
 
   describe('getAll model returns', () => {
-    beforeEach(() => sinonStub(payload));
+    beforeEach(() => sinonStub(allSales));
 
     it('Returns an array of objects', async () => {
       const sales = await salesModel.getAll();
