@@ -7,11 +7,6 @@ const productsModel = require('../../../models/productsModel');
 const { httpStatus, errorMessages } = require('../../../helpers');
 const { productId, quantity } = require('../../../middlewares/bodyValidation');
 
-const payload = [
-  { saleId: 1, date: '2021-09-09', productId: 1, quantity: 2 },
-  { saleId: 1, date: '2021-09-09', productId: 2, quantity: 2 },
-];
-
 const {
   saleCreateResponse,
   allProductsResponse,
@@ -20,6 +15,8 @@ const {
   wrongSaleNotQuantityBody,
   rightSaleBody,
   wrongZeroQuantityBody,
+  allSales,
+  specificSale,
 } = require('../../../__tests__/_dataMock');
 
 describe('Tests for salesService', () => {
@@ -90,7 +87,7 @@ describe('Tests for salesService', () => {
 
   describe('getAll service returns', () => {
     beforeEach(() => {
-      sinon.stub(salesModel, 'getAll').resolves(payload);
+      sinon.stub(salesModel, 'getAll').resolves(allSales);
     });
 
     afterEach(() => {
@@ -103,6 +100,24 @@ describe('Tests for salesService', () => {
       sales.forEach((s) => expect(s)
         .to.be.a('object')
         .to.have.a.property('saleId' && 'productId' && 'quantity' && 'date'));
+    });
+  });
+
+  describe('getById service returns', () => {
+    beforeEach(() => {
+      sinon.stub(salesModel, 'getById').resolves(specificSale);
+    });
+
+    afterEach(() => {
+      salesModel.getById.restore();
+    });
+
+    it('Returns an array of objects', async () => {
+      const sale = await salesService.getById();
+      expect(sale).to.be.a('array');
+      sale.forEach((s) => expect(s)
+        .to.be.a('object')
+        .to.have.a.property('productId' && 'quantity' && 'date'));
     });
   });
 });
