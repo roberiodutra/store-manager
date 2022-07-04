@@ -17,7 +17,7 @@ const addSoldProducts = async (saleId, productId, productQuantity) => {
   );
 };
 
-const getAll = () => {
+const getAll = async () => {
   const [sales] = await connection.execute(
     `SELECT 
       sp.sale_id AS saleId, 
@@ -27,7 +27,7 @@ const getAll = () => {
     FROM StoreManager.sales_products AS sp
     INNER JOIN StoreManager.sales AS s
     ON sp.sale_id = s.id
-    ORDER BY s.id ASC, sp.product_id ASC`
+    ORDER BY s.id ASC, sp.product_id ASC`,
   );
   return sales;
 };

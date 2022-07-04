@@ -4,6 +4,11 @@ const { expect } = require('chai');
 const connection = require('../../../helpers/connection');
 const salesModel = require('../../../models/salesModel');
 
+const payload = [
+  { saleId: 1, date: '2021-09-09', productId: 1, quantity: 2 },
+  { saleId: 1, date: '2021-09-09', productId: 2, quantity: 2 },
+];
+
 describe('Tests for salesModel', () => {
   afterEach(() => connection.execute.restore());
 
@@ -26,6 +31,18 @@ describe('Tests for salesModel', () => {
     it('Call connection execute', async () => {
       await salesModel.addSoldProducts();
       expect(connection.execute.called).to.be.true;
+    });
+  });
+
+  describe('getAll model returns', () => {
+    beforeEach(() => sinonStub(payload));
+
+    it('Returns an array of objects', async () => {
+      const sales = await salesModel.getAll();
+      expect(sales).to.be.a('array');
+      sales.forEach((s) => expect(s)
+        .to.be.a('object')
+        .to.have.a.property('saleId' && 'productId' && 'quantity' && 'date'));
     });
   });
 });
