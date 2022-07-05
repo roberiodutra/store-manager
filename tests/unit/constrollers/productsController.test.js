@@ -8,7 +8,7 @@ const { httpStatus, errorMessages } = require('../../../helpers');
 const {
   rightProductBody,
   productCreateResponse,
-} = require('../../../__tests__/_dataMock');
+} = require('../../unit/mockData');
 
 describe('Tests for productsController', () => {
   const res = {};

@@ -7,7 +7,7 @@ const { httpStatus, errorMessages } = require('../../../helpers');
 
 const {
   specificSale,
-} = require('../../../__tests__/_dataMock');
+} = require('../../unit/mockData');
 
 describe('Tests for salesController', () => {
   const res = {};

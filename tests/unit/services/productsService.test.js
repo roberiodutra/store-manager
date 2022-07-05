@@ -8,7 +8,7 @@ const { httpStatus, errorMessages } = require('../../../helpers');
 const {
   allProductsResponse,
   rightProductBody,
-} = require('../../../__tests__/_dataMock');
+} = require('../../unit/mockData');
 
 describe('Tests for productsService', () => {
   const sinonStub = (prop, data) => {

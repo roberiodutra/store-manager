@@ -4,15 +4,10 @@ const { expect } = require('chai');
 const connection = require('../../../helpers/connection');
 const salesModel = require('../../../models/salesModel');
 
-const allSales = [
-  { saleId: 1, date: '2021-09-09', productId: 1, quantity: 2 },
-  { saleId: 1, date: '2021-09-09', productId: 2, quantity: 2 },
-];
-
-const specificSale = [
-  { date: '2021-09-09', productId: 1, quantity: 2 },
-  { date: '2021-09-09', productId: 2, quantity: 2 },
-];
+const {
+  allSales,
+  specificSale,
+} = require('../../unit/mockData');
 
 describe('Tests for salesModel', () => {
   afterEach(() => connection.execute.restore());

@@ -7,7 +7,7 @@ const productsModel = require('../../../models/productsModel');
 const {
   allProductsResponse,
   productCreateResponse,
-} = require('../../../__tests__/_dataMock');
+} = require('../../unit/mockData');
 
 describe('Tests for productsModel', () => {
   afterEach(() => connection.execute.restore());

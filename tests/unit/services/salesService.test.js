@@ -15,17 +15,9 @@ const {
   wrongSaleNotQuantityBody,
   rightSaleBody,
   wrongZeroQuantityBody,
-} = require('../../../__tests__/_dataMock');
-
-const allSales = [
-  { saleId: 1, date: '2021-09-09', productId: 1, quantity: 2 },
-  { saleId: 1, date: '2021-09-09', productId: 2, quantity: 2 },
-];
-
-const specificSale = [
-  { date: '2021-09-09', productId: 1, quantity: 2 },
-  { date: '2021-09-09', productId: 2, quantity: 2 },
-];
+  allSales,
+  specificSale,
+} = require('../../unit/mockData');
 
 describe('Tests for salesService', () => {
   const res = {};
