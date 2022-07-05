@@ -8,6 +8,8 @@ const { httpStatus, errorMessages } = require('../../../helpers');
 const {
   rightProductBody,
   productCreateResponse,
+  productUpdateExistsNameBody,
+  productUpdateResponse,
 } = require('../../unit/mockData');
 
 describe('Tests for productsController', () => {
@@ -115,6 +117,22 @@ describe('Tests for productsController', () => {
     it('Returns an error', async () => {
       await productsController.add(req, res, next);
       expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
+
+  describe('Calling update controller', () => {
+    beforeEach(() => {
+      req.body = productUpdateExistsNameBody;
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'update').resolves(productUpdateResponse);
+    });
+
+    afterEach(() => productsService.update.restore());
+
+    it('Is called status code 200', async () => {
+      await productsController.update(req, res, next);
+      expect(res.status.calledWith(httpStatus.OK)).to.be.true;
     });
   });
 });

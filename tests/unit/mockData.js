@@ -9,7 +9,8 @@ const allProductsResponse = [
 ];
 const productCreateResponse = {id:4,name:'Produto1'};
 const productUpdateBody = {name:'Machado do Thor Stormbreaker'};
-const productUpdateExistsNameBody = {name:'Martelo de Thor'};
+const productUpdateExistsNameBody = { name: 'Martelo de Thor' };
+const productUpdateResponse = {id:1,name:'Machado do Thor Stormbreaker'};
 const productSearchNameResponse = [{id:1,name:'Martelo de Thor'}];
 
 /*-------------------------- Sales --------------------------*/
