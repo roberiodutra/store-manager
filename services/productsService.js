@@ -1,5 +1,5 @@
 const productsModel = require('../models/productsModel');
-const { nameValidation } = require('../middlewares/bodyValidation');
+const { nameValidation, productValidation } = require('../middlewares/bodyValidation');
 
 const getAll = async () => {
   const products = await productsModel.getAll();
@@ -19,4 +19,15 @@ const add = async (name, res) => {
   return result;
 };
 
-module.exports = { getAll, getById, add };
+const update = async (name, id, res) => {
+  const products = await productsModel.getAll();
+  const isName = products.map((p) => p.name).includes(name);
+
+  if (productValidation(isName, res)) return;
+
+  await productsModel.update(name, id);
+
+  return { id, name };
+};
+
+module.exports = { getAll, getById, add, update };
