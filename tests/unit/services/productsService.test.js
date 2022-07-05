@@ -104,7 +104,7 @@ describe('Tests for productsService', () => {
     });
 
     it('Is called status code 404', async () => {
-      await productsService.update('noName', 1, res);
+      await productsService.update(productUpdateExistsNameBody, '', res);
       expect(res.status.calledWith(httpStatus.NOT_FOUND)).to.be.true;
       expect(res.json.calledWith(errorMessages.NOT_FOUND)).to.be.true;
     });
