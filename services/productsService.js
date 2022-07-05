@@ -21,9 +21,9 @@ const add = async (name, res) => {
 
 const update = async (name, id, res) => {
   const products = await productsModel.getAll();
-  const isName = products.map((p) => p.name).includes(name);
+  const isId = products.map((p) => p.id).includes(+id);
 
-  if (productValidation(isName, res)) return;
+  if (nameValidation(name, res) || productValidation(isId, res)) return;
 
   await productsModel.update(name, id);
 

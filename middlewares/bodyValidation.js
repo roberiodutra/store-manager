@@ -33,9 +33,9 @@ const quantity = (sales, res) => {
   }
 };
 
-const productValidation = (isName, res) => {
+const productValidation = (isId, res) => {
   switch (true) {
-  case !isName:
+  case !isId:
     return res.status(httpStatus.NOT_FOUND).json(errorMessages.NOT_FOUND);
   default:
     return false;

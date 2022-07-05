@@ -36,4 +36,15 @@ const add = async (req, res, next) => {
   }
 };
 
-module.exports = { getAll, getById, add };
+const update = async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    const { id } = req.params;
+    const updatedProduct = await productsService.update(name, id, res);
+    return res.status(httpStatus.OK).json(updatedProduct);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { getAll, getById, add, update };
