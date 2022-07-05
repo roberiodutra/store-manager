@@ -33,4 +33,13 @@ const quantity = (sales, res) => {
   }
 };
 
-module.exports = { nameValidation, productId, quantity };
+const productValidation = (isName, res) => {
+  switch (true) {
+  case !isName:
+    return res.status(httpStatus.NOT_FOUND).json(errorMessages.NOT_FOUND);
+  default:
+    return false;
+  }
+};
+
+module.exports = { nameValidation, productId, quantity, productValidation };
