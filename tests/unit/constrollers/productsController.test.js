@@ -135,4 +135,17 @@ describe('Tests for productsController', () => {
       expect(res.status.calledWith(httpStatus.OK)).to.be.true;
     });
   });
+
+  describe('Test update controller catch error', () => {
+    beforeEach(() => {
+      sinon.stub(productsService, 'update').throws(err);
+    });
+
+    afterEach(() => productsService.update.restore());
+
+    it('Returns an error', async () => {
+      await productsController.update(req, res, next);
+      expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
 });
