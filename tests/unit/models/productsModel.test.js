@@ -45,4 +45,13 @@ describe('Tests for productsModel', () => {
       expect(createdProduct).to.have.a.property('id' && 'name');
     });
   });
+
+  describe('Calling update model', () => {
+    beforeEach(() => sinonStub());
+
+    it('Call connection execute', async () => {
+      await productsModel.update();
+      expect(connection.execute.called).to.be.true;
+    });
+  });
 });
