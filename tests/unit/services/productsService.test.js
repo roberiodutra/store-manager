@@ -4,10 +4,12 @@ const { expect } = require("chai");
 const productsModel = require('../../../models/productsModel');
 const productsService = require('../../../services/productsService');
 const { httpStatus, errorMessages } = require('../../../helpers');
+const { productValidation } = require('../../../middlewares/bodyValidation');
 
 const {
   allProductsResponse,
   rightProductBody,
+  productUpdateExistsNameBody,
 } = require('../../unit/mockData');
 
 describe('Tests for productsService', () => {
@@ -78,6 +80,33 @@ describe('Tests for productsService', () => {
     it('Returns error message invalid name', async () => {
       await productsService.add('abcd', res);
       expect(res.json.calledWith(errorMessages.INVALID_NAME)).to.be.true;
+    });
+  });
+
+  describe('update service returns', () => {
+    beforeEach(() => {
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinonStub('update', productUpdateExistsNameBody);
+      sinonStub('getAll', allProductsResponse);
+    });
+
+    afterEach(() => {
+      productsModel.update.restore();
+      productsModel.getAll.restore();
+    });
+
+    it('Returns an object', async () => {
+      const updatedProduct = await productsService.update(name, 1, res);
+      expect(updatedProduct).to.be.an('object');
+      expect(updatedProduct).to.have.a.property('id' && 'name');
+      expect(productValidation(true)).to.be.false;
+    });
+
+    it('Is called status code 404', async () => {
+      await productsService.update('noName', 1, res);
+      expect(res.status.calledWith(httpStatus.NOT_FOUND)).to.be.true;
+      expect(res.json.calledWith(errorMessages.NOT_FOUND)).to.be.true;
     });
   });
 });
