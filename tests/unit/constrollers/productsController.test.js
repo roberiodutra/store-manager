@@ -178,4 +178,33 @@ describe('Tests for productsController', () => {
       expect(sinon.assert.calledWith(next, sinon.match(err)));
     });
   });
+
+    describe('Calling query controller', () => {
+    beforeEach(() => {
+      req.query = 'Martelo';
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'query').resolves(productSearchNameResponse);
+    });
+
+    afterEach(() => productsService.query.restore());
+
+    it('Is called status code 200', async () => {
+      await productsController.query(req, res, next);
+      expect(res.status.calledWith(httpStatus.OK)).to.be.true;
+    });
+  });
+
+  describe('Test query controller catch error', () => {
+    beforeEach(() => {
+      sinon.stub(productsService, 'query').throws(err);
+    });
+
+    afterEach(() => productsService.query.restore());
+
+    it('Returns an error', async () => {
+      await productsController.query(req, res, next);
+      expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
 });
