@@ -32,4 +32,8 @@ const getById = async (id) => {
   return sale;
 };
 
-module.exports = { createSale, getAll, getById };
+const remove = async (id) => {
+  await salesModel.remove(id);
+};
+
+module.exports = { createSale, getAll, getById, remove };
