@@ -57,4 +57,13 @@ describe('Tests for salesModel', () => {
         .to.have.a.property('productId' && 'quantity' && 'date'));
     });
   });
+
+  describe('Calling remove model', () => {
+    beforeEach(() => sinonStub());
+
+    it('Call connection execute', async () => {
+      await salesModel.remove();
+      expect(connection.execute.called).to.be.true;
+    });
+  });
 });
