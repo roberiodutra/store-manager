@@ -167,4 +167,35 @@ describe('Tests for salesController', () => {
       expect(sinon.assert.calledWith(next, sinon.match(err)));
     });
   });
+
+  describe('Calling update controller', () => {
+    beforeEach(() => {
+      req.params = 1;
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'update').resolves([]);
+    });
+
+    afterEach(() => {
+      salesService.update.restore();
+    });
+
+    it('Is called status code 200', async () => {
+      await salesController.update(req, res, next);
+      expect(res.status.calledWith(httpStatus.OK)).to.be.true;
+    });
+  });
+
+    describe('Test update controller catch error', () => {
+    beforeEach(() => {
+      sinon.stub(salesService, 'update').throws(err);
+    });
+
+    afterEach(() => salesService.update.restore());
+
+    it('Returns an error', async () => {
+      await salesController.update(req, res, next);
+      expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
 });
