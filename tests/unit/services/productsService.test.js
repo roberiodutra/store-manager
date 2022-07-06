@@ -4,7 +4,7 @@ const { expect } = require("chai");
 const productsModel = require('../../../models/productsModel');
 const productsService = require('../../../services/productsService');
 const { httpStatus, errorMessages } = require('../../../helpers');
-const { productValidation } = require('../../../middlewares/bodyValidation');
+const { productId } = require('../../../middlewares/bodyValidation');
 
 const {
   allProductsResponse,
@@ -100,7 +100,7 @@ describe('Tests for productsService', () => {
       const updatedProduct = await productsService.update(name, 1, res);
       expect(updatedProduct).to.be.an('object');
       expect(updatedProduct).to.have.a.property('id' && 'name');
-      expect(productValidation(true)).to.be.false;
+      expect(productId(true)).to.be.false;
     });
 
     it('Is called status code 404', async () => {

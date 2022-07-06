@@ -49,6 +49,14 @@ const specificSale = [
   { date: '2021-09-09', productId: 2, quantity: 2 },
 ];
 
+const itemsUpdated = {
+  saleId: 1,
+  itemsUpdated: [
+    { productId: 1, quantity: 10 },
+    {productId: 2,quantity: 50},
+  ],
+};
+
 module.exports = {
   wrongProductBody,
   wrongSizeProductBody,
@@ -70,4 +78,5 @@ module.exports = {
   saleCreateResponse,
   allSales,
   specificSale,
+  itemsUpdated,
 };

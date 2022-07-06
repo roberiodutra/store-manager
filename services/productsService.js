@@ -1,5 +1,5 @@
 const productsModel = require('../models/productsModel');
-const { nameValidation, productValidation } = require('../middlewares/bodyValidation');
+const { nameValidation, idValidation, productId } = require('../middlewares/bodyValidation');
 
 const getAll = async () => {
   const products = await productsModel.getAll();
@@ -23,7 +23,7 @@ const update = async (name, id, res) => {
   const products = await productsModel.getAll();
   const isId = products.map((p) => p.id).includes(+id);
 
-  if (nameValidation(name, res) || productValidation(isId, res)) return;
+  if (nameValidation(name, res) || productId(isId, res)) return;
 
   await productsModel.update(name, id);
 
@@ -34,7 +34,7 @@ const remove = async (id, res) => {
   const products = await productsModel.getAll();
   const isId = products.map((p) => p.id).includes(+id);
 
-  if (productValidation(isId, res)) return;
+  if (productId(isId, res)) return;
 
   await productsModel.remove(id);
 };
