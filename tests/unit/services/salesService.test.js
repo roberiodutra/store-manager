@@ -96,7 +96,7 @@ describe('Tests for salesService', () => {
 
   describe('getById service returns', () => {
     beforeEach(() => {
-      sinon.stub(salesModel, 'getById').resolves(specificSale);
+      sinon.stub(salesModel, 'getById').resolves([]);
     });
 
     afterEach(() => {
