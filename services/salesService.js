@@ -1,5 +1,5 @@
 const salesModel = require('../models/salesModel');
-const { productId, quantity } = require('../middlewares/bodyValidation');
+const { productId, quantity, saleIdValidation } = require('../middlewares/bodyValidation');
 const productsModel = require('../models/productsModel');
 
 const createSale = async (sales, res) => {
@@ -36,4 +36,26 @@ const remove = async (id) => {
   await salesModel.remove(id);
 };
 
-module.exports = { createSale, getAll, getById, remove };
+const update = async (sales, saleId, res) => {
+  const products = await productsModel.getAll();
+  const allSales = await salesModel.getAll();
+  const productsIds = products.map(({ id }) => id);
+  const salesIds = sales.map((s) => s.productId)
+    .every((each) => productsIds.includes(each));
+  
+  const allSalesIds = allSales.map((s) => s.saleId);
+  const checkBodySaleId = allSalesIds.includes(+saleId);
+
+  if (saleIdValidation(checkBodySaleId, res)
+    || productId(sales, salesIds, res)
+    || quantity(sales, res)) return;
+
+  await Promise.all(sales.map(async (s) => {
+    await salesModel.update(saleId, s.productId, s.quantity);
+  }));
+
+  const soldProducts = { saleId, itemsUpdated: sales };
+  return soldProducts;
+};
+
+module.exports = { createSale, getAll, getById, remove, update };
