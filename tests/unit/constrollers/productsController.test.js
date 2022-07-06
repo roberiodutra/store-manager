@@ -10,6 +10,7 @@ const {
   productCreateResponse,
   productUpdateExistsNameBody,
   productUpdateResponse,
+  productSearchNameResponse,
 } = require('../../unit/mockData');
 
 describe('Tests for productsController', () => {
@@ -146,6 +147,22 @@ describe('Tests for productsController', () => {
     it('Returns an error', async () => {
       await productsController.update(req, res, next);
       expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
+
+  describe('Calling remove controller', () => {
+    beforeEach(() => {
+      req.body = productSearchNameResponse;
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'remove').resolves([]);
+    });
+
+    afterEach(() => productsService.remove.restore());
+
+    it('Is called status code 204', async () => {
+      await productsController.remove(req, res, next);
+      expect(res.status.calledWith(httpStatus.NO_CONTENT)).to.be.true;
     });
   });
 });

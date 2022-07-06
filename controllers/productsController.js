@@ -50,7 +50,7 @@ const update = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await productsService.remove(id);
+    await productsService.remove(id, res);
     return res.status(httpStatus.NO_CONTENT).end();
   } catch (err) {
     next(err);
