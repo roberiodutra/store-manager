@@ -55,6 +55,7 @@ module.exports = {
   rightProductBody,
   allProductsResponse,
   productCreateResponse,
+  productUpdateResponse,
   productUpdateBody,
   productUpdateExistsNameBody,
   productSearchNameResponse,

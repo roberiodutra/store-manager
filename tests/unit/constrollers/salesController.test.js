@@ -7,6 +7,7 @@ const { httpStatus, errorMessages } = require('../../../helpers');
 
 const {
   specificSale,
+  allSales,
 } = require('../../unit/mockData');
 
 describe('Tests for salesController', () => {
@@ -112,6 +113,57 @@ describe('Tests for salesController', () => {
 
     it('Returns an error', async () => {
       await salesController.getById(req, res, next);
+      expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
+
+  describe('Calling remove controller', () => {
+    beforeEach(() => {
+      req.params = 1;
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'remove').resolves([]);
+      sinon.stub(salesService, 'getById').resolves(allSales);
+    });
+
+    afterEach(() => {
+      salesService.remove.restore();
+      salesService.getById.restore();
+    });
+
+    it('Is called status code 204', async () => {
+      await salesController.remove(req, res, next);
+      expect(res.status.calledWith(httpStatus.NO_CONTENT)).to.be.true;
+    });
+  });
+
+  describe('Calling remove controller with non-existent id', () => {
+    beforeEach(() => {
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'getById').resolves([]);
+    });
+
+    afterEach(() => {
+      salesService.getById.restore();
+    });
+
+    it('Is called status code 400', async () => {
+      await salesController.remove(req, res, next);
+      expect(res.status.calledWith(httpStatus.NOT_FOUND)).to.be.true;
+      expect(res.json.calledWith(errorMessages.SALE_N_FOUND)).to.be.true;
+    });
+  });
+
+  describe('Test remove controller catch error', () => {
+    beforeEach(() => {
+      sinon.stub(salesService, 'remove').throws(err);
+    });
+
+    afterEach(() => salesService.remove.restore());
+
+    it('Returns an error', async () => {
+      await salesController.remove(req, res, next);
       expect(sinon.assert.calledWith(next, sinon.match(err)));
     });
   });
