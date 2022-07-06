@@ -120,4 +120,19 @@ describe('Tests for salesService', () => {
         .to.have.a.property('productId' && 'quantity' && 'date'));
     });
   });
+
+  describe('Calling remove service', () => {
+    beforeEach(() => {
+      sinon.stub(salesModel, 'remove').resolves([]);
+    });
+
+    afterEach(() => {
+      salesModel.remove.restore();
+    });
+
+    it('Call remove sales model', async () => {
+      await salesService.remove();
+      expect(salesModel.remove.called).to.be.true;
+    });
+  });
 });
