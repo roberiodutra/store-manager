@@ -57,4 +57,14 @@ const remove = async (req, res, next) => {
   }
 };
 
-module.exports = { getAll, getById, add, update, remove };
+const query = async (req, res, next) => {
+  try {
+    const { q } = req.query;
+    const found = await productsService.query(q);
+    return res.status(httpStatus.OK).json(found);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { getAll, getById, add, update, remove, query };
