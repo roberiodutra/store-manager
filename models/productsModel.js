@@ -45,4 +45,14 @@ const remove = async (id) => {
   );
 };
 
-module.exports = { getAll, getById, add, update, remove };
+const query = async (name) => {
+  const [found] = await connection.execute(
+    `SELECT *
+      FROM StoreManager.products
+        WHERE name = ?`,
+    [name],
+  );
+  return found;
+};
+
+module.exports = { getAll, getById, add, update, remove, query };
