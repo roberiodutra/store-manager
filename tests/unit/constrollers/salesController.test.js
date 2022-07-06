@@ -154,4 +154,17 @@ describe('Tests for salesController', () => {
       expect(res.json.calledWith(errorMessages.SALE_N_FOUND)).to.be.true;
     });
   });
+
+  describe('Test remove controller catch error', () => {
+    beforeEach(() => {
+      sinon.stub(salesService, 'remove').throws(err);
+    });
+
+    afterEach(() => salesService.remove.restore());
+
+    it('Returns an error', async () => {
+      await salesController.remove(req, res, next);
+      expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
 });
