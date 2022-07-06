@@ -179,7 +179,7 @@ describe('Tests for productsController', () => {
     });
   });
 
-    describe('Calling query controller', () => {
+  describe('Calling query controller', () => {
     beforeEach(() => {
       req.query = 'Martelo';
       res.status = sinon.stub().returns(res);
