@@ -38,12 +38,14 @@ const remove = async (id) => {
 
 const update = async (sales, saleId, res) => {
   const products = await productsModel.getAll();
-  const allSales = await salesModel.getAll();
   const productsIds = products.map(({ id }) => id);
+
+  const allSales = await salesModel.getAll();
+  const allSalesIds = allSales.map((s) => s.saleId);
+
   const salesIds = sales.map((s) => s.productId)
     .every((each) => productsIds.includes(each));
   
-  const allSalesIds = allSales.map((s) => s.saleId);
   const checkBodySaleId = allSalesIds.includes(+saleId);
 
   if (saleIdValidation(checkBodySaleId, res)

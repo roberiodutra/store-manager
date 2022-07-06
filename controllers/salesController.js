@@ -52,4 +52,15 @@ const remove = async (req, res, next) => {
   }
 };
 
-module.exports = { createSale, getAll, getById, remove };
+const update = async (req, res, next) => {
+  try {
+    const sales = req.body;
+    const { id } = req.params;
+    const soldProducts = await salesService.update(sales, id, res);
+    return res.status(httpStatus.OK).json(soldProducts);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { createSale, getAll, getById, remove, update };
