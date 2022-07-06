@@ -1,5 +1,5 @@
 const productsModel = require('../models/productsModel');
-const { nameValidation, idValidation, productId } = require('../middlewares/bodyValidation');
+const { nameValidation, productId } = require('../middlewares/bodyValidation');
 
 const getAll = async () => {
   const products = await productsModel.getAll();
@@ -39,4 +39,9 @@ const remove = async (id, res) => {
   await productsModel.remove(id);
 };
 
-module.exports = { getAll, getById, add, update, remove };
+const query = async (term) => {
+  const found = await productsModel.query(term);
+  return found;
+};
+
+module.exports = { getAll, getById, add, update, remove, query };

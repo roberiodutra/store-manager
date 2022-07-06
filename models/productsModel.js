@@ -49,9 +49,11 @@ const query = async (name) => {
   const [found] = await connection.execute(
     `SELECT *
       FROM StoreManager.products
-        WHERE name = ?`,
+        WHERE name 
+          LIKE CONCAT("%", ? , "%")`,
     [name],
   );
+  console.log(found);
   return found;
 };
 
