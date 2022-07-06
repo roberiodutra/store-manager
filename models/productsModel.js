@@ -45,4 +45,4 @@ const remove = async (id) => {
   );
 };
 
-module.exports = { getAll, getById, add, update };
+module.exports = { getAll, getById, add, update, remove };
