@@ -36,4 +36,20 @@ const getById = async (req, res, next) => {
   }
 };
 
-module.exports = { createSale, getAll, getById };
+const remove = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const sale = await salesService.getById(id);
+
+    if (sale.length === 0) {
+      return res.status(httpStatus.NOT_FOUND).json(errorMessages.SALE_N_FOUND);
+    }
+
+    await salesService.remove(id);
+    return res.status(httpStatus.NO_CONTENT).end();
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { createSale, getAll, getById, remove };
