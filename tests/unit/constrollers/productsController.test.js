@@ -165,4 +165,17 @@ describe('Tests for productsController', () => {
       expect(res.status.calledWith(httpStatus.NO_CONTENT)).to.be.true;
     });
   });
+
+  describe('Test remove controller catch error', () => {
+    beforeEach(() => {
+      sinon.stub(productsService, 'remove').throws(err);
+    });
+
+    afterEach(() => productsService.remove.restore());
+
+    it('Returns an error', async () => {
+      await productsController.remove(req, res, next);
+      expect(sinon.assert.calledWith(next, sinon.match(err)));
+    });
+  });
 });
