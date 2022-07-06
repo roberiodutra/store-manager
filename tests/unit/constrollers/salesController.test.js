@@ -158,9 +158,13 @@ describe('Tests for salesController', () => {
   describe('Test remove controller catch error', () => {
     beforeEach(() => {
       sinon.stub(salesService, 'remove').throws(err);
+      sinon.stub(salesService, 'getById').resolves([]);
     });
 
-    afterEach(() => salesService.remove.restore());
+    afterEach(() => {
+      salesService.remove.restore();
+      salesService.getById.restore();
+    });
 
     it('Returns an error', async () => {
       await salesController.remove(req, res, next);
