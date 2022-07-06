@@ -63,4 +63,13 @@ describe('Tests for productsModel', () => {
       expect(connection.execute.called).to.be.true;
     });
   });
+
+  describe('Calling query model', () => {
+    beforeEach(() => sinonStub());
+
+    it('Call connection execute', async () => {
+      await productsModel.query();
+      expect(connection.execute.called).to.be.true;
+    });
+  });
 });
