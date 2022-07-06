@@ -66,4 +66,13 @@ describe('Tests for salesModel', () => {
       expect(connection.execute.called).to.be.true;
     });
   });
+
+  describe('Calling update model', () => {
+    beforeEach(() => sinonStub());
+
+    it('Call connection execute', async () => {
+      await salesModel.update();
+      expect(connection.execute.called).to.be.true;
+    });
+  });
 });
