@@ -109,4 +109,24 @@ describe('Tests for productsService', () => {
       expect(res.json.calledWith(errorMessages.NOT_FOUND)).to.be.true;
     });
   });
+
+  describe('Calling remove products service', () => {
+    beforeEach(() => {
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinonStub('remove', productUpdateExistsNameBody);
+      sinonStub('getAll', allProductsResponse);
+    });
+
+    afterEach(() => {
+      productsModel.remove.restore();
+      productsModel.getAll.restore();
+    });
+
+    it('Is called status code 404', async () => {
+      await productsService.remove('', res);
+      expect(res.status.calledWith(httpStatus.NOT_FOUND)).to.be.true;
+      expect(res.json.calledWith(errorMessages.NOT_FOUND)).to.be.true;
+    });
+  });
 });

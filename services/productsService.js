@@ -30,7 +30,7 @@ const update = async (name, id, res) => {
   return { id, name };
 };
 
-const remove = async (id) => {
+const remove = async (id, res) => {
   const products = await productsModel.getAll();
   const isId = products.map((p) => p.id).includes(+id);
 
