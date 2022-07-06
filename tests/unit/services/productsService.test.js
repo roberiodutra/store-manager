@@ -129,4 +129,19 @@ describe('Tests for productsService', () => {
       expect(res.json.calledWith(errorMessages.NOT_FOUND)).to.be.true;
     });
   });
+
+  describe('Calling query service', () => {
+    beforeEach(() => {
+      sinon.stub(productsModel, 'query').resolves();
+    });
+
+    afterEach(() => {
+      productsModel.query.restore();
+    });
+
+    it('Call query products model', async () => {
+      await productsService.query();
+      expect(productsModel.query.called).to.be.true;
+    });
+  });
 });
